@@ -11,9 +11,19 @@
 |
 */
 
-Route::get('/', "CollectionController@index");
-Route::resource('collections', "CollectionController");
-Route::resource('task', "TaskController");
-Route::post('/task/{id}', 'TaskController@update');
-Route::get('/task/create/{collectionId}', 'TaskController@create');
-Route::get('collections/{collectionId}', 'CollectionController@show')->name('showCollection');
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+
+Route::resource('product', 'ProductController');
+Route::resource('order', 'OrderController');
+
+Route::get('/cart', 'CartController@index');
+Route::get('/cart/add/{id}', 'CartController@addToCart');
+Route::post('/cart/update/{id}', 'CartController@updateCart');
+Route::get('/cart/delete/{id}', 'CartController@removeFromCart');
+
+Route::get('/home', 'HomeController@index')->name('home');
