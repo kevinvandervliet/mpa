@@ -36,6 +36,7 @@
 
                     </ul>
 
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -43,7 +44,9 @@
                                 <a class="nav-link" href="{{ url('/product') }}">{{ __('Producten') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/cart') }}">{{ __('Winkelwagen') }}</a>
+                                <a class="nav-link" href="{{ url('/cart') }}">{{ __('Winkelwagen') }}<span class="badge badge-secondary">
+                                {{ App\Cart::getAmount() }}
+                                </span></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" style="margin-right:20px;" href="{{ url('/order') }}">{{ __('Orders') }}</a>
