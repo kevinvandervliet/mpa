@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Product;
+use Illuminate\View;
 
 class Cart extends Model
 {
@@ -22,6 +24,9 @@ class Cart extends Model
                 $productInCart->totalPrice = (number_format($productInCart->price, 2) * $productInCart->amount);
             }
         }
+
+
+
         return array($totalPrice, $productsInCart);
     }
     //Add product to cart if it doesn't exist in the cart yet. If it does exist, add one to the amount.
@@ -30,7 +35,8 @@ class Cart extends Model
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        $product = \App\Product::find($id);
+
+        $product = Product::find($id);
         $addedToCart = false;
         $productsInCart = request()->session()->get('cart');
         if($productsInCart != null && $productsInCart != "array(0) { }"){
@@ -40,6 +46,7 @@ class Cart extends Model
                 {
                     $productInCart->amount++;
                     $addedToCart = true;
+
                 }
             }
         }
@@ -48,6 +55,8 @@ class Cart extends Model
             request()->session()->push('cart', $product);
         }
     }
+
+
     //Update the cart. Alter product amount according to the entered value in amount input.
     public function updateCart($request, $id)
     {
@@ -83,5 +92,18 @@ class Cart extends Model
                 request()->session()->pull('cart.'.$key, 'default');
             }
         }
+    }
+
+    public static function getAmount()
+    {
+        $amount = 0;
+
+        $session = request()->session()->get('cart');
+
+        foreach ($session as $items) {
+            $amount += $items->amount;
+        }
+
+        return $amount;
     }
 }
