@@ -98,12 +98,14 @@ class Cart extends Model
     {
         $amount = 0;
 
-        $session = request()->session()->get('cart');
+        if (request()->session()->get('cart')) {
 
-        foreach ($session as $items) {
-            $amount += $items->amount;
+            $session = request()->session()->get('cart');
+
+            foreach ($session as $items) {
+                $amount += $items->amount;
+            }
         }
-
         return $amount;
     }
 }

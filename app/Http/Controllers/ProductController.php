@@ -9,6 +9,10 @@ class ProductController extends Controller
 {
     public function index()
     {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $products=\App\Product::all();
         $catagories=\App\Catagory::all();
         return view('product.index',compact('products', 'catagories'));
